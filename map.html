@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Route Generator</title>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet'/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link id="css" rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/map.js"></script>
+</head>
+<body>
+
+<!- Error message -->
+<div class="container mt-3" id="error" hidden>
+    <div class="alert alert-danger " role="alert">
+        <h4 class="alert-heading">Something went wrong!</h4>
+        <p id="error-message"></p>
+    </div>
+</div>
+
+<div class="container-fluid" id="main-content">
+    <div class="row vh-100">
+        <div class="col d-flex flex-column">
+            <!-- Map-->
+            <div class="row h-75" id="map-wrapper">
+                <div id='map'></div>
+            </div>
+            <!-- Status -->
+            <div class="row" id="status-display">
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col">
+
+                            <div class="feedback bg-light text-dark">
+                                <h5 class="fw-bold" id="correct-counter"></h5>
+                                <span>correct answers</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="feedback bg-light text-dark">
+                                <h5 id="distance-display"></h5>
+                                <span id="distance-display-waypointnumber"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col">
+
+                            <div class="alert alert-primary" id="instruction" role="alert">
+                                Go to the first waypoint to get your first question!
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-success" onclick="onClickNewRound()" id="new-route"
+                                        hidden>
+                                    <h6
+                                            class="alert-heading">Well done!</h6>
+                                    <p>click here to start a new round</p>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!- Loader-->
+            <div class="row text-center" id="loader-wrapper">
+                <div class="container">
+                    <div class="col">
+                        <div class="spinner-border  text-primary align-self-center" id="loader" role="status">
+                        </div>
+
+                        <div class="progress my-3">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                 id="progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+                        </div>
+                        <p class="text-center fs-5" id="progress-label"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Question dialog -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="question">Question #</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                </div>
+                <div class="modal-body">
+                    <div class="row h-100">
+                        <div class="col-sm-12 my-auto">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary btn-lg" type="button" id="option-0"
+                                        onClick="onClickAnswer(this.id)">
+                                    Anwer 1
+                                </button>
+                                <button class="btn btn-primary btn-lg" type="button" id="option-1"
+                                        onClick="onClickAnswer(this.id)">
+                                    Answer 2
+                                </button>
+                                <button class="btn btn-primary btn-lg" type="button" id="option-2"
+                                        onClick="onClickAnswer(this.id)">
+                                    Answer 3
+                                </button>
+                                <button class="btn btn-primary btn-lg" type="button" id="option-3"
+                                        onClick="onClickAnswer(this.id)">
+                                    Answer 4
+                                </button>
+                            </div>
+                            <div class="pt-4">
+                                <div class="alert" id="feedback" role="alert">
+                                    feedback
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = initMapPage;
+</script>
+</body>
+</html>

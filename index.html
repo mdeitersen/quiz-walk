@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quiz Walk</title>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet'/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link id="css" rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <span class="mb-0 h1">Quiz Walk</span>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="alert alert-primary" role="alert">
+        <h5 class="alert-heading">What is Quiz Walk?</h5>
+        <p>It lets you generate a circular route with a specified number of waypoints. At each one, you will get a
+            question you have to answer. Just enter your
+            desired walking distance and number of questions below.</p>
+    </div>
+
+    <form action="map.html" class="needs-validation" method="GET" novalidate>
+        <div class="row">
+            <div class="col">
+                <label for="distance">Distance</label>
+                <div class="input-group mb-3">
+                    <input type="number" name="distance" class="form-control" id="distance" placeholder="Distance"
+                           value="2" step="0.1" min="0.5" max="7" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">km</span>
+                    </div>
+                    <div class="invalid-feedback">
+                        Please choose a distance between 0,5 and 7km.
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <label for="num_waypoints">Number of questions</label>
+                <select class="form-select" name="num_waypoints" id="num_waypoints">
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please choose a number between 2 and 10.
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="difficulty">Quiz difficulty</label>
+            <select class="form-select" id="difficulty" name="difficulty">
+                <option value="">Any Difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="category">Question category</label>
+            <select class="form-select" id="category" name="category">
+            </select>
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">Generate Route</button>
+        </div>
+    </form>
+</div>
+<script>
+    window.onload = initIndexPage;
+</script>
+</body>
+</html>

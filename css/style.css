@@ -1,0 +1,42 @@
+#map {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#map-wrapper {
+    visibility: hidden;
+}
+
+#status-display {
+    display: none;
+}
+
+.spinner-border {
+    width: 50px;
+    height: 50px;
+}
+
+.marker-start {
+    background-image: url('../img/home-15.svg');
+    background-size: cover;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.feedback {
+    padding: 5px;
+    margin: 10px 0px;
+}
+
+.modal-body {
+    justify-content: center !important;
+}
+
+.btn {
+    padding: 20px 0;
+}
