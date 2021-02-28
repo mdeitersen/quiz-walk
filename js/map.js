@@ -48,7 +48,7 @@ function initMapPage() {
 
     let waypointsLoaded = new Promise((resolve, reject) => {
         map.on('load', function () {
-            //geolocate._geolocateButton.hidden = "false";
+            geolocate._geolocateButton.hidden = "false";
             resolve();
         });
     }).then(() => {
