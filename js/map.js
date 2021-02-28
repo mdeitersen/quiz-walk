@@ -245,8 +245,8 @@ function loadQuestions() {
     if (quizDifficulty != "") {
         url += "&difficulty=" + quizDifficulty;
     }
-    if (quizDifficulty != "") {
-        url += "&category=" + quizDifficulty;
+    if (quizCategory != "") {
+        url += "&category=" + quizCategory;
     }
 
     console.log(url);
