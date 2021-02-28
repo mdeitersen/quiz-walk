@@ -348,7 +348,7 @@ function updateDistanceToWaypoint(e) {
     let url = 'https://api.mapbox.com/directions/v5/mapbox/' + MODE + '/' + httpCoordinates + '?geometries=geojson&access_token=' + mapboxgl.accessToken;
 
     return $.getJSON(url).then(function (json) {
-        let distanceToWaypoint = parseFloat(json.routes[0].distance).toFixed(2);
+        let distanceToWaypoint = Math.round(parseFloat(json.routes[0].distance));
         console.log("Distance to marker " + nextWaypoint + " is " + distanceToWaypoint + " m.");
         //update distance display
         let distanceDisplay = document.getElementById("distance-display");
