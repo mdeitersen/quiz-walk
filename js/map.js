@@ -48,7 +48,7 @@ function initMapPage() {
 
     let waypointsLoaded = new Promise((resolve, reject) => {
         map.on('load', function () {
-            geolocate._geolocateButton.hidden = "false";
+            //geolocate._geolocateButton.hidden = "false";
             resolve();
         });
     }).then(() => {
@@ -127,7 +127,6 @@ function addWaypointToMap() {
     } else if (nextWaypoint == waypointCount) {
         plotRoute(routeCoordinates);
         console.log("Quiz finished!");
-        showFinished();
     }
 }
 
@@ -343,7 +342,8 @@ function getCircularRoute() {
 function updateDistanceToWaypoint(e) {
     var position = new mapboxgl.LngLat(e.coords.longitude, e.coords.latitude);
     console.log("geolocator update, position: " + position);
-    let route = [position, waypoints[nextWaypoint]];
+    // check if quiz is finished and therefore all waypoints were visited
+    let route = (nextWaypoint < waypointCount) ? [position, waypoints[nextWaypoint]] : [position, startPosition];
     let httpCoordinates = encodeURI(parseWaypointsToString(route));
     let url = 'https://api.mapbox.com/directions/v5/mapbox/' + MODE + '/' + httpCoordinates + '?geometries=geojson&access_token=' + mapboxgl.accessToken;
 
@@ -354,13 +354,15 @@ function updateDistanceToWaypoint(e) {
         let distanceDisplay = document.getElementById("distance-display");
         distanceDisplay.innerHTML = distanceToWaypoint + "m";
         let distanceDisplayWaypointNumber = document.getElementById("distance-display-waypointnumber");
-        distanceDisplayWaypointNumber.innerHTML = "to the " + getOrdinalNum(nextWaypoint + 1) + " waypoint";
+        distanceDisplayWaypointNumber.innerHTML = (nextWaypoint < waypointCount) ? "to the " + getOrdinalNum(nextWaypoint + 1) + " waypoint" : "to your starting point";
 
         // Check if current position is close enough to next destination
         if ((distanceToWaypoint < MAX_DISTANCE_WAYPOINT) && (nextWaypoint < waypointCount)) {
             showQuestion();
-        } else if ((distanceToWaypoint < 100) && (nextWaypoint == waypointCount)) {
+        }
+        if ((distanceToWaypoint < MAX_DISTANCE_WAYPOINT) && (nextWaypoint == waypointCount)) {
             console.log("Finished route");
+            showFinished();
         }
     }).catch(() => {
         return Promise.reject("An error occurred when requesting a JSON file");
@@ -464,7 +466,7 @@ function updateInstructions() {
     if ((nextWaypoint) < waypointCount) {
         instruction.innerHTML = "Go to the " + getOrdinalNum(nextWaypoint + 1) + " waypoint to get your next question!";
     } else {
-        instruction.innerHTML = "You answered all question. Now go back to your start!";
+        instruction.innerHTML = "You answered all question. Now go back to your starting point!";
     }
 }
 
