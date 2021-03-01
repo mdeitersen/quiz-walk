@@ -31,6 +31,7 @@ var questions = null;
 var nextWaypoint = 0;
 var correctAnswersCounter = 0;
 var iterations = 0;
+var isQuizOpen = false;
 
 function initMapPage() {
     let progress = document.getElementById("progress");
@@ -76,7 +77,9 @@ function initMapPage() {
         addWaypointToMap();
         return new Promise((resolve, reject) => {
             geolocate.on('geolocate', function (position) {
-                updateDistanceToWaypoint(position).then(() => resolve());
+                if(!isQuizOpen) {
+                    updateDistanceToWaypoint(position).then(() => resolve());
+                }
             });
         });
     }).then(() => {
@@ -371,6 +374,7 @@ function updateDistanceToWaypoint(e) {
 
 /************************************  Quiz Dialog *****************************************/
 function showQuestion() {
+    isQuizOpen = true;
     resetButtons();
     let questionDisplay = document.getElementById("question");
     let currentQuestion = questions[nextWaypoint].question;
@@ -436,7 +440,6 @@ async function onClickAnswer(id) {
         let option = document.getElementById("option-" + i);
         if (option.getAttribute("data-correct")) {
             option.classList.replace("btn-primary", "btn-success");
-            option.classList.add("btn-success");
         } else {
             option.classList.replace("btn-primary", "btn-danger");
         }
@@ -445,11 +448,13 @@ async function onClickAnswer(id) {
     //let modal = new bootstrap.Modal(document.getElementById("staticBackdrop"));
     setTimeout(function () {
         $("#staticBackdrop").modal("hide");
+        isQuizOpen = false;
     }, 1500);
     nextWaypoint++;
     console.log("next waypoint: " + nextWaypoint);
     addWaypointToMap();
     updateInstructions();
+
 }
 
 function shuffleArray(arr) {
