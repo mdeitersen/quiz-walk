@@ -49,7 +49,7 @@ function initMapPage() {
 
     let waypointsLoaded = new Promise((resolve, reject) => {
         map.on('load', function () {
-            geolocate._geolocateButton.hidden = "false";
+            geolocate._geolocateButton.hidden = "true";
             resolve();
         });
     }).then(() => {
@@ -77,7 +77,7 @@ function initMapPage() {
         addWaypointToMap();
         return new Promise((resolve, reject) => {
             geolocate.on('geolocate', function (position) {
-                if(!isQuizOpen) {
+                if (!isQuizOpen) {
                     updateDistanceToWaypoint(position).then(() => resolve());
                 }
             });
